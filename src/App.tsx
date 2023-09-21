@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import Gallery from './gallery/Gallery';
+import Login from './login/Login';
+import ProtectedRoute from './protected/Protected';
 
 function App() {
+  // const isAuthenticated = true; // You may need to implement actual authentication logic
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      <Routes>
+        <Route path="/" element={<Navigate to="/login"/>} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated}/>} />
+        <Route path="/gallery" element={isAuthenticated ? <Gallery /> : <Navigate to="/"/>} />
+        {/* <Route path="/gallery" element={<ProtectedRoute Component={Gallery} />} /> */}
+
+      </Routes>
     </div>
   );
 }
